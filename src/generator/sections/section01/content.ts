@@ -4,8 +4,11 @@ import { updateYFromText } from "@/generator/utilities/text";
 import { store } from "@/redux/store";
 import type { jsPDF} from "jspdf"
 
+
 const generateSection01 = async (doc: jsPDF) => {
   const mpl = store.getState().pdf.marginPositionLeft;
+  const productName = store.getState().info.productName;
+  const clssesTest = store.getState().classifications.hazardClassifications
 
     const headerTitle = '1. Product and Company Identification'.toUpperCase();
     addSectionHeader(doc, headerTitle, mpl, getCurrentY());
@@ -17,7 +20,7 @@ const generateSection01 = async (doc: jsPDF) => {
     const productIdentifiers = [
         {
             label: 'Product Name',
-            value: 'Tyrannosaurus Tender Touch Lotion'
+            value: productName,
         },
         {
             label: 'Product Code',
@@ -26,12 +29,15 @@ const generateSection01 = async (doc: jsPDF) => {
         {
             label: 'Brand',
             value: 'SDSaurus'
-        }
+        },
+        ...clssesTest
     ];
 
     productIdentifiers.forEach((o) => {
         addDataSet(doc, o.label, o.value, getCurrentY())
     });
+
+
 
 
 }
